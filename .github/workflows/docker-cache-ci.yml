@@ -9,13 +9,13 @@ on:
     branches:
       - main
 
+permissions:
+  contents: read
+  packages: write
+
 jobs:
   docker-build:
     runs-on: ubuntu-latest
-
-    permissions:
-      contents: read
-      packages: write
 
     steps:
       - name: Checkout Repository
@@ -31,11 +31,11 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build and Push Image
+      - name: Build and Push Docker Image
         uses: docker/build-push-action@v6
         with:
           context: .
           push: true
-          tags: ghcr.io/${{ github.repository_owner }}/docker-cache:latest
-          cache-from: type=registry,ref=ghcr.io/${{ github.repository_owner }}/docker-cache:latest
-          cache-to: type=registry,ref=ghcr.io/${{ github.repository_owner }}/docker-cache:buildcache,mode=max
+          tags: ghcr.io/kumarsatyam2110/docker-cache:latest
+          cache-from: type=registry,ref=ghcr.io/kumarsatyam2110/docker-cache:latest
+          cache-to: type=registry,ref=ghcr.io/kumarsatyam2110/docker-cache:buildcache,mode=max
